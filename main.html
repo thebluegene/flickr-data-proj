@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Photography</title>
+    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation-essential/6.2.2/css/foundation.min.css" media="screen" />
+    <style>
+      body {
+        background-color: #fffaf0;
+      }
+      /*Top graph styles*/
+      svg {
+        display: block;
+        margin: 50px auto 20px;
+        padding: 0 10px;
+      }
+      p, ul {
+        font-family: 'Crimson Text', serif;
+        font-size: 20px;
+      }
+      ul {
+        margin: 0 0 0 50px;
+      }
+
+      .line {
+        fill: none;
+        stroke: #0087BC;
+        stroke-width: 3px;
+        z-index: 99;
+      }
+      .data-point {
+         fill: #000000;
+         stroke: black;
+      }
+      .setOne {
+        fill: #00FFC3;
+      }
+      .setTwo {
+        fill: #dda3ff;
+      }
+      .setThree {
+        fill: #ADF5FF
+      }
+      .setFour {
+        fill: #EF5F7F;
+      }
+
+      /*365 styles*/
+      .color-grid {
+        margin: 0 0 20px 0;
+      }
+      .color-grid .swatch{
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+      }
+
+      /*Text Styles*/
+      .post-container--title {
+        margin: 40px 0 0 0;
+        text-align: center;
+        text-transform: uppercase;
+        font-family: 'Monoton', cursive;
+        word-spacing: 20px;
+      }
+      .post-container--subtitle {
+        font-family: 'Muli', sans-serif;
+        font-size: 20px;
+      }
+      .post-container--text {
+        text-indent: 30px;
+      }
+      .post-container--subtitle, .post-container--date-range {
+        display: inline-block;
+      }
+      .post-container--attempt-row {
+        margin: 30px 0 0;
+      }
+
+    /* js image blocks */
+    .js-block {
+      position: relative;
+      height: 350px;
+      padding: 20px;
+      text-align: center;
+      border: 1px dashed black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .js-block::after {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 160px;
+      z-index: -1;
+    }
+    .js-block img {
+      max-height: 310px;
+    }
+
+    .js-first.js-block::after {
+      content: 'Attempt #1';
+    }
+    .js-second.js-block::after {
+      content: 'Attempt #2';
+    }
+    .js-third.js-block::after {
+      content: 'Attempt #3';
+    }
+    .js-fourth.js-block::after {
+      content: 'Attempt #4';
+    }
+
+
+    /* tooltips  */
+    .tooltip {
+      position: absolute;
+      display: none;
+      min-width: 100px;
+      height: auto;
+      background: none repeat scroll 0 0 #ffffff;
+      border: 1px solid black;
+      padding: 10px 15px;
+      text-align: center;
+    }
+
+
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="medium-10 medium-offset-1 column">
+        <h1 class="post-container--title">7 Years of Photography</h1>
+        <div class="post-container--main-graph">
+        </div>
+        <p class="post-container--text">
+          For over 7 years now photography
+        </p>
+        <p class="post-container--text">
+          For these several visualisations, I asked myself the following questions:
+          <ul>
+            <li>How has my photography changed over time?</li>
+            <li>When do I take most of my photos?</li>
+            <li>What have been my most common settings and equipment to use?</li>
+            <li>How much has my posting frequency changed?</li>
+          </ul>
+        </p>
+        <p class="post-container--text">
+          I like to think that my photography style has evolved significantly, with major shifts marked by my attempts at 365 projects.
+          I honestly thought there would be more discernable differences betrween the dominant colors.
+        </p>
+
+        <div class="row post-container--attempt-row">
+          <div class="medium-7 columns">
+            <div class="post-container--365_first">
+              <h2 class="post-container--subtitle">365 Attempt #1</h2>
+              <p class="post-container--date-range">(May 2010 - Sept 2010)</p>
+              <div class="color-grid"></div>
+            </div>
+          </div>
+          <div class="medium-5 columns js-photo-compare">
+            <div class="js-block js-first"></div>
+          </div>
+        </div>
+        <div class="row post-container--attempt-row">
+          <div class="medium-7 columns">
+            <div class="post-container--365_second">
+              <h2 class="post-container--subtitle">365 Attempt #2</h2>
+              <p class="post-container--date-range">(Jan 2011 - March 2011)</p>
+              <div class="color-grid"></div>
+            </div>
+          </div>
+          <div class="medium-5 columns js-photo-compare">
+            <div class="js-block js-second"></div>
+          </div>
+        </div>
+        <div class="row post-container--attempt-row">
+          <div class="medium-7 columns">
+            <div class="post-container--365_third">
+              <h2 class="post-container--subtitle">365 Attempt #3</h2>
+              <p class="post-container--date-range">(September 2011 - April 2012)</p>
+              <div class="color-grid"></div>
+            </div>
+          </div>
+          <div class="medium-5 columns js-photo-compare">
+            <div class="js-block js-third"></div>
+          </div>
+        </div>
+        <div class="row post-container--attempt-row">
+          <div class="medium-7 columns">
+            <div class="post-container--365_fourth">
+              <h2 class="post-container--subtitle">365 Attempt #4</h2>
+              <p class="post-container--date-range">(February 2014 - February 2014)</p>
+              <div class="color-grid"></div>
+            </div>
+          </div>
+          <div class="medium-5 columns js-photo-compare">
+            <div class="js-block js-fourth"></div>
+          </div>
+        </div>
+
+        <!-- <div class="js-photo-compare">
+          <div class="js-photo-compare__text">
+            Click on the color blocks above to load the associated photo.
+          </div>
+          <div class="row">
+            <div class="medium-6 columns js-block js-first"></div>
+            <div class="medium-6 columns js-block js-second"></div>
+          </div>
+          <div class="row">
+            <div class="medium-6 columns js-block js-third"></div>
+            <div class="medium-6 columns js-block js-fourth"></div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/overview-graph.js"></script>
+  </body>
+</html>

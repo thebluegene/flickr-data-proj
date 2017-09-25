@@ -1,0 +1,28 @@
+{
+  "name": "node-js-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "async": "^2.2.0",
+    "color-thief-jimp": "^2.0.2",
+    "color-thief-standalone": "^1.0.3",
+    "csv-parser": "^1.11.0",
+    "csv-write-stream": "^2.0.0",
+    "dominant-color": "0.0.1",
+    "flickrapi": "^0.6.0",
+    "get-image-colors": "^1.8.1",
+    "get-image-data": "^3.0.1",
+    "gm": "^1.23.0",
+    "huey": "^2.0.0",
+    "imagecolors": "^0.10.5",
+    "json2csv": "^3.7.3",
+    "node-async-loop": "^1.2.2",
+    "node-vibrant": "^3.0.0-alpha.2"
+  }
+}
