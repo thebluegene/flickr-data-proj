@@ -35,9 +35,33 @@ let dataFormatter = (function () {
       let array = [];
       for(let i = 0; i < 24; i++) {
         array.push({
-          hour: i,
+          type: i,
           count: 0,
           url: null
+        });
+      }
+      return array;
+    }
+
+    function _createDaysArray() {
+      let array = [];
+      let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      for(let i = 0; i < days.length; i++) {
+        array.push({
+          type: days[i],
+          count: 0
+        });
+      }
+      return array;
+    }
+
+    function _createMonthsArray() {
+      let array = [];
+      let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Decemeber']
+      for(let i = 0; i < months.length; i++) {
+        array.push({
+          type: months[i],
+          count: 0
         });
       }
       return array;
@@ -48,7 +72,7 @@ let dataFormatter = (function () {
     }
 
     return {
-      getShotsPerMonth: function(data) {
+      getChronologicalShotsPerMonth: function(data) {
         data.forEach( function(item){
           if(item['date-taken'] !== 'null') {
             let query = item['date-taken'].split(':').splice(0,2).join('-');
@@ -74,6 +98,26 @@ let dataFormatter = (function () {
           hoursArray[hour].url = _getUrl(item);
         });
         return hoursArray;
+      },
+      getShotsPerDay: function(data) {
+        let dayArray = _createDaysArray();
+        let day;
+        data.forEach(function(item) {
+          var d = new Date(item['date-taken'].split(' ')[0].replace(':','-'));
+          day = d.getDay();
+          dayArray[day].count++;
+        });
+        return dayArray;
+      },
+      getShotsPerMonth: function(data) {
+        let monthArray = _createMonthsArray();
+        let month;
+        data.forEach(function(item) {
+          var d = new Date(item['date-taken'].split(' ')[0].replace(':','-'));
+          month = d.getMonth();
+          monthArray[month].count++;
+        });
+        return monthArray;
       },
       getUrl: function(photo) {
         return _getUrl(photo);

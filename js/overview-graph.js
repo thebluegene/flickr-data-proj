@@ -29,7 +29,7 @@ function createMainGraph (data){
 
   let total = 0;
   let dataForCumulative = [];
-  let shotsPerMonth = dataFormatter.getShotsPerMonth(data.reverse());
+  let shotsPerMonth = dataFormatter.getChronologicalShotsPerMonth(data.reverse());
 
   for (let subArray of shotsPerMonth) {
     let obj = {};
@@ -159,23 +159,50 @@ function createApertureGraph(data) {
   }
 }
 
-function createRadialGraph(data) {
+function createRadialGraph(data, dateType) {
   const barHeight = absoluteHeight/2 - 40;
   const formatNumber = d3.format('s');
+  let shotsPerDate;
   let color = d3.scaleOrdinal().range(["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]);
-  let svg = d3.select('body').append('svg')
+  let svg = d3.select('.post-container--radial-graph').append('svg')
     .attr('width', absoluteWidth)
     .attr('height', absoluteHeight)
     .append('g')
     .attr('transform', 'translate(' + absoluteWidth/2 + ','+ absoluteHeight/2 +')');
 
-  let shotsPerHour = dataFormatter.getShotsPerHour(data);
-  let extent = d3.extent(shotsPerHour, function(d) { return d.count; });
+  if(dateType == 'hour') {
+    shotsPerDate = dataFormatter.getShotsPerHour(data);
+  }
+  else if(dateType == 'day') {
+    shotsPerDate = dataFormatter.getShotsPerDay(data);
+  }
+  else if(dateType == 'month') {
+    shotsPerDate = dataFormatter.getShotsPerMonth(data);
+  }
+  console.log(shotsPerDate);
+
+  let extent = d3.extent(shotsPerDate, function(d) { return d.count; });
   let scale = d3.scaleLinear()
     .domain(extent)
     .range([0, barHeight]);
 
-  let keys = shotsPerHour.map(function(d,i) { return d.hour });
+  let keys = shotsPerDate.map(function(d,i) { return d.type });
+
+  if(dateType == 'hour') {
+  keys = keys.map(function(key) {
+      if(key == 11) {
+        return '12 PM';
+      }
+      else if(key == 23) {
+        return '12 AM';
+      }
+      else if(key+1 > 12) {
+        return ((key+1)-12)+' PM';
+      }
+      return key+1+' AM';
+    });
+  }
+
   let numBars = keys.length;
 
   let x = d3.scaleLinear()
@@ -201,19 +228,20 @@ function createRadialGraph(data) {
     .innerRadius(0);
 
   let segments = svg.selectAll("path")
-    .data(shotsPerHour)
+    .data(shotsPerDate)
     .enter().append("path")
+    .attr("class", "bar")
     .each(function(d) { d.outerRadius = 0; })
-    .style("fill", function(d) { return color(d.hour) })
+    .style("fill", function(d) { return color(d.type) })
     .attr("d", arc)
     .on('mouseover', function(d) {
       console.log(d);
       console.log("hi");
     });
 
-  segments.transition().duration(1000).delay(function(d,i) {return (25-i)*100;})
+  segments.transition().duration(500).delay(function(d,i) {return (25-i)*100;})
     .attrTween("d", function(d,index) {
-      let i = d3.interpolate(d.outerRadius, scale(+d.count));
+      let i = d3.interpolate(d.outerRadius, scale(+d.count));;
       return function(t) { d.outerRadius = i(t); return arc(d,index); };
     });
 
@@ -235,13 +263,6 @@ function createRadialGraph(data) {
   // Labels
   let labelRadius = barHeight * 1.025;
 
-  keys = keys.map(function(key) {
-    if(key+1 > 12) {
-      return ((key+1)-12)+' PM';
-    }
-    return key+1+' AM';
-  });
-
   let labels = svg.append("g")
       .classed("labels", true);
   labels.append("def")
@@ -260,14 +281,39 @@ function createRadialGraph(data) {
       .text(function(d) {return d; });
 }
 
+function createCameraGraph(data) {
+
+}
+
 d3.csv("flickr-data-final-with-colors.csv", function(error, data) {
   if (error) {
     throw error;
   }
   createMainGraph(data);
   create365Graph(data);
-  createRadialGraph(data);
+  createRadialGraph(data, 'hour');
   createApertureGraph(data);
+
+  $('.radial-graph__button').on('click', function() {
+    if($(this).hasClass('js-radial-hour') && !$(this).hasClass('active')) {
+      d3.select('.post-container--radial-graph svg').remove();
+      createRadialGraph(data, 'hour');
+    }
+    else if($(this).hasClass('js-radial-day') && !$(this).hasClass('active')) {
+      d3.select('.post-container--radial-graph svg').remove();
+      createRadialGraph(data, 'day');
+    }
+    else if($(this).hasClass('js-radial-month') && !$(this).hasClass('active')) {
+      d3.select('.post-container--radial-graph svg').remove();
+      createRadialGraph(data, 'month');
+    }
+
+    $('.radial-graph__button').removeClass('active');
+    $(this).addClass('active');
+
+  });
+
+  createCameraGraph(data);
 
 });
 

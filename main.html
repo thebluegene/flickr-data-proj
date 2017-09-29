@@ -82,53 +82,68 @@
         margin: 30px 0 0;
       }
 
-    /* js image blocks */
-    .js-block {
-      position: relative;
-      height: 350px;
-      padding: 20px;
-      text-align: center;
-      border: 1px dashed black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .js-block::after {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 160px;
-      z-index: -1;
-    }
-    .js-block img {
-      max-height: 310px;
-    }
+      /* js image blocks */
+      .js-block {
+        position: relative;
+        height: 350px;
+        padding: 20px;
+        text-align: center;
+        border: 1px dashed black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .js-block::after {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 160px;
+        z-index: -1;
+      }
+      .js-block img {
+        max-height: 310px;
+      }
 
-    .js-first.js-block::after {
-      content: 'Attempt #1';
-    }
-    .js-second.js-block::after {
-      content: 'Attempt #2';
-    }
-    .js-third.js-block::after {
-      content: 'Attempt #3';
-    }
-    .js-fourth.js-block::after {
-      content: 'Attempt #4';
-    }
+      .js-first.js-block::after {
+        content: 'Attempt #1';
+      }
+      .js-second.js-block::after {
+        content: 'Attempt #2';
+      }
+      .js-third.js-block::after {
+        content: 'Attempt #3';
+      }
+      .js-fourth.js-block::after {
+        content: 'Attempt #4';
+      }
 
+      /* radial graph section buttons */
+      .radial-graph__button-list {
+        margin: 50px 0 0 0;
+      }
+      .radial-graph__button {
+        display: inline-block;
+        list-style: none;
+        border: 1px solid black;
+        width: 100px;
+        text-align: center;
+      }
+      .radial-graph__button.active{
+        background-color: gray;
+        color: white;
+      }
 
-    /* tooltips  */
-    .tooltip {
-      position: absolute;
-      display: none;
-      min-width: 100px;
-      height: auto;
-      background: none repeat scroll 0 0 #ffffff;
-      border: 1px solid black;
-      padding: 10px 15px;
-      text-align: center;
-    }
+      /* tooltips  */
+      .tooltip {
+        position: absolute;
+        display: none;
+        min-width: 100px;
+        height: auto;
+        background: none repeat scroll 0 0 #ffffff;
+        border: 1px solid black;
+        padding: 10px 15px;
+        text-align: center;
+      }
 
 
     </style>
@@ -204,7 +219,19 @@
             <div class="js-block js-fourth"></div>
           </div>
         </div>
-
+        <div class="post-container--radial-graph">
+          <ul class="radial-graph__button-list">
+            <li class="radial-graph__button js-radial-hour">
+              By hour
+            </li>
+            <li class="radial-graph__button js-radial-day">
+              By day
+            </li>
+            <li class="radial-graph__button js-radial-month">
+              By month
+            </li>
+          </ul>
+        </div>
         <!-- <div class="js-photo-compare">
           <div class="js-photo-compare__text">
             Click on the color blocks above to load the associated photo.
