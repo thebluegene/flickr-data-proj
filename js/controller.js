@@ -121,6 +121,21 @@ let dataFormatter = (function () {
       },
       getUrl: function(photo) {
         return _getUrl(photo);
+      },
+      getDataArray: function(data, dataType) {
+        let dataArray = [];
+
+        data.forEach(function(d) {
+          if(d[dataType] != 0 && d[dataType] != 'null') {
+            if(d[dataType] in dataArray) {
+              dataArray[d[dataType]]++;
+            } else {
+              dataArray[d[dataType]] = 1;
+            }
+          }
+        });
+
+        return dataArray;
       }
     };
   })();

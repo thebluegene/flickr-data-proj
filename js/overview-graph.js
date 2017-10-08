@@ -151,14 +151,6 @@ function create365Graph(data) {
   }
 }
 
-function createApertureGraph(data) {
-  for (var i = 0; i < data.length; i++) {
-    if(data[i]['aperture']) {
-      // console.log(data[i]['aperture']);
-    }
-  }
-}
-
 function createRadialGraph(data, dateType) {
   const barHeight = absoluteHeight/2 - 40;
   const formatNumber = d3.format('s');
@@ -179,7 +171,6 @@ function createRadialGraph(data, dateType) {
   else if(dateType == 'month') {
     shotsPerDate = dataFormatter.getShotsPerMonth(data);
   }
-  console.log(shotsPerDate);
 
   let extent = d3.extent(shotsPerDate, function(d) { return d.count; });
   let scale = d3.scaleLinear()
@@ -213,15 +204,6 @@ function createRadialGraph(data, dateType) {
     .ticks(3)
     .tickFormat(formatNumber);
 
-  // let circles = svg.selectAll("circle")
-  //   .data(x.ticks(3))
-  //   .enter().append("circle")
-  //   .attr("r", function(d) { return scale(d); } )
-  //   .style("fill", "none")
-  //   .style("stroke", "black")
-  //   .style("stroke-dasharray", "2,2")
-  //   .style("stroke-width", ".5px");
-
   let arc = d3.arc()
     .startAngle(function(d,i){ return (i*2*Math.PI) / numBars })
     .endAngle(function(d,i){ return ((i+1)*2*Math.PI) / numBars })
@@ -236,7 +218,6 @@ function createRadialGraph(data, dateType) {
     .attr("d", arc)
     .on('mouseover', function(d) {
       console.log(d);
-      console.log("hi");
     });
 
   segments.transition().duration(500).delay(function(d,i) {return (25-i)*100;})
@@ -281,8 +262,98 @@ function createRadialGraph(data, dateType) {
       .text(function(d) {return d; });
 }
 
-function createCameraGraph(data) {
+function createExifGraph(data, dataType) {
+  let svg = d3.select(".post-container--exif-graph").append("svg")
+            .attr("width", absoluteWidth)
+            .attr("height", absoluteHeight)
+            .append("g")
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
 
+  let x = d3.scaleBand()
+            .range([0, width])
+            .padding(0.1);
+  let y = d3.scaleLinear()
+            .range([height, 0]);
+
+  let xAxis = d3.axisBottom(x);
+
+  let cameraDataArray = dataFormatter.getDataArray(data, dataType);
+
+  if(dataType == 'exposure' || dataType == "aperture") {
+    x.domain(d3.entries(cameraDataArray)
+      .sort(function(a,b) { return eval(a.key) - eval(b.key) })
+      .map(function(d) { return d.key; }));
+  } else {
+    x.domain(d3.entries(cameraDataArray)
+      .map(function(d) { return d.key; }));
+  }
+  y.domain([0, d3.max(d3.entries(cameraDataArray), function(d) { return d.value; })]);
+
+  svg.selectAll(".bar")
+      .data(d3.entries(cameraDataArray))
+      .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) {
+        return x(d.key);
+      })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) {
+        return y(d.value);
+      })
+      .attr("height", function(d) {
+        return height - y(d.value);
+      });
+
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height +")")
+    .call(xAxis);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+
+
+
+  // var sortTimeout = setTimeout(function() {
+      // d3.select("input").property("checked", true).each(change);
+    // }, 2000);
+
+  $(".js-sort-exif").off().on("click", function() {
+    console.log("Hello?");
+    $(this).toggleClass('active');
+
+    if ($(this).hasClass('active')) {
+      var x0 = x.domain(d3.entries(cameraDataArray)
+        .sort(function(a,b) { return b.value - a.value })
+        .map(function(d) { return d.key; }));
+    } else {
+      if(dataType == 'exposure' || dataType == "aperture" || dataType == "iso") {
+        var x0 = x.domain(d3.entries(cameraDataArray)
+          .sort(function(a,b) { return eval(a.key) - eval(b.key) })
+          .map(function(d) { return d.key; }));
+      } else {
+        var x0 = x.domain(d3.entries(cameraDataArray)
+          .sort(function(a,b) { return b.key - a.key })
+          .map(function(d) { return d.key; }));
+      }
+    }
+
+    svg.selectAll(".post-container--exif-graph .bar")
+      .sort(function(a, b) { return x0(a.key) - x0(b.key); });
+
+    var transition = svg.transition().duration(750),
+        delay = function(d, i) { return i * 50; };
+
+    transition.selectAll(".post-container--exif-graph .bar")
+        .delay(delay)
+        .attr("x", function(d) { return x0(d.key); });
+
+    transition.select(".post-container--exif-graph .x.axis")
+        .call(xAxis)
+      .selectAll(".post-container--exif-graph g")
+        .delay(delay);
+  });
 }
 
 d3.csv("flickr-data-final-with-colors.csv", function(error, data) {
@@ -292,9 +363,9 @@ d3.csv("flickr-data-final-with-colors.csv", function(error, data) {
   createMainGraph(data);
   create365Graph(data);
   createRadialGraph(data, 'hour');
-  createApertureGraph(data);
+  createExifGraph(data, 'iso');
 
-  $('.radial-graph__button').on('click', function() {
+  $('body').on('click',".radial-graph__button", function() {
     if($(this).hasClass('js-radial-hour') && !$(this).hasClass('active')) {
       d3.select('.post-container--radial-graph svg').remove();
       createRadialGraph(data, 'hour');
@@ -310,10 +381,30 @@ d3.csv("flickr-data-final-with-colors.csv", function(error, data) {
 
     $('.radial-graph__button').removeClass('active');
     $(this).addClass('active');
-
   });
 
-  createCameraGraph(data);
+  $('body ').on('click', ".exif-graph__button", function() {
+    if($(this).hasClass('js-exif-iso') && !$(this).hasClass('active')) {
+      d3.select('.post-container--exif-graph svg').remove();
+      createExifGraph(data, 'iso');
+    }
+    else if($(this).hasClass('js-exif-aperture') && !$(this).hasClass('active')) {
+      d3.select('.post-container--exif-graph svg').remove();
+      createExifGraph(data, 'aperture');
+    }
+    else if($(this).hasClass('js-exif-exposure') && !$(this).hasClass('active')) {
+      d3.select('.post-container--exif-graph svg').remove();
+      createExifGraph(data, 'exposure');
+    }
+    else if($(this).hasClass('js-exif-camera') && !$(this).hasClass('active')) {
+      d3.select('.post-container--exif-graph svg').remove();
+      createExifGraph(data, 'camera');
+    }
+
+    $('.exif-graph__button').removeClass('active');
+    $(this).addClass('active');
+
+  });
 
 });
 
