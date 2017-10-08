@@ -1,0 +1,161 @@
+body {
+  background-color: #fffaf0;
+}
+/*Top graph styles*/
+
+svg {
+  display: block;
+  margin: 50px auto 20px;
+  padding: 0 10px;
+}
+
+p,
+ul {
+  font-family: 'Crimson Text', serif;
+  font-size: 20px;
+}
+
+ul {
+  margin: 0 0 0 50px;
+}
+
+.line {
+  fill: none;
+  stroke: #0087BC;
+  stroke-width: 3px;
+  z-index: 99;
+}
+
+.data-point {
+  fill: #000000;
+  stroke: black;
+}
+
+.setOne {
+  fill: #00FFC3;
+}
+
+.setTwo {
+  fill: #dda3ff;
+}
+
+.setThree {
+  fill: #ADF5FF;
+}
+
+.setFour {
+  fill: #EF5F7F;
+}
+/*365 styles*/
+
+.color-grid {
+  margin: 0 0 20px;
+}
+
+.color-grid .swatch {
+  margin: 2px;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+/*Text Styles*/
+
+.post-container--title {
+  margin: 40px 0 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Monoton', cursive;
+  word-spacing: 20px;
+}
+
+.post-container--subtitle {
+  font-family: 'Muli', sans-serif;
+  font-size: 20px;
+}
+
+.post-container--text {
+  text-indent: 30px;
+}
+
+.post-container--date-range,
+.post-container--subtitle {
+  display: inline-block;
+}
+
+.post-container--attempt-row {
+  margin: 30px 0 0;
+}
+/* js image blocks */
+
+.js-block {
+  position: relative;
+  height: 350px;
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.js-block::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 160px;
+  z-index: -1;
+}
+
+.js-block img {
+  max-height: 310px;
+}
+
+.js-first.js-block::after {
+  content: 'Attempt #1';
+}
+
+.js-second.js-block::after {
+  content: 'Attempt #2';
+}
+
+.js-third.js-block::after {
+  content: 'Attempt #3';
+}
+
+.js-fourth.js-block::after {
+  content: 'Attempt #4';
+}
+/* radial graph section buttons */
+
+.exif-graph,
+.radial-graph {
+  &__button-list {
+    margin: 50px 0 0;
+  }
+
+  &__button {
+    display: inline-block;
+    list-style: none;
+    border: 1px solid black;
+    min-width: 100px;
+    padding: 0 25px;
+    text-align: center;
+
+    &.active {
+      background-color: gray;
+      color: white;
+    }
+  }
+}
+/* tooltips  */
+
+.tooltip {
+  position: absolute;
+  display: none;
+  min-width: 100px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid black;
+  padding: 10px 15px;
+  text-align: center;
+}
