@@ -1,7 +1,9 @@
 var gulp = require('gulp')
 var sass = require('gulp-sass')
 var prefix = require('gulp-autoprefixer');
+var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
+var concat = require('gulp-concat');
 
 var input = './sass/*.scss';
 var output = './';
@@ -19,8 +21,8 @@ gulp.task('sass', function(){
           .pipe(sourcemaps.write())
           .pipe(prefix())
           .pipe(gulp.dest(output));
-})
+});
 
 gulp.task('watch', function() {
-  gulp.watch('./sass/*.scss');
+  gulp.watch('./sass/*.scss', ['sass']);
 })

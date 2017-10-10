@@ -16,29 +16,54 @@
   <body>
     <div class="row">
       <div class="medium-10 medium-offset-1 column">
-        <h1 class="post-container--title">7 Years of Photography</h1>
+        <h1 class="post-container--title">8 Years of Photography</h1>
+        <div class="post-container--note">
+          IN PROGRESS:
+          <ul>
+            <li>
+              Total photos in the hover states of the first graph are off. Still figuring out whats causing the difference.
+            </li>
+            <li>
+              "y" value in the radial graph needs to use a different type of interpolation, since using outer radius skews the
+              sizes of the bars
+            </li>
+            <li>
+              Fix script to get focal length data
+            </li>
+            <li>
+              Refactor, refactor, refactor...
+            </li>
+          </ul>
+        </div>
         <div class="post-container--main-graph">
         </div>
         <p class="post-container--text">
-          For over 7 years now photography
-        </p>
-        <p class="post-container--text">
-          For these several visualisations, I asked myself the following questions:
+          For 8 years now I've shared my photography on Flickr, and after recently gaining an interest in data visualization, I realized
+          posting photos to Flickr has been creating a database of all my photo data. It made perfect sense to use that data of over 1500
+          photos for my first D3 project. There were four questions I wanted to answer with the visualizations:
           <ul>
-            <li>How has my photography changed over time?</li>
-            <li>When do I take most of my photos?</li>
-            <li>What have been my most common settings and equipment to use?</li>
-            <li>How much has my posting frequency changed?</li>
+            <li>
+              How apparent is the difference in my photography style during my four attempts at a 365 project?
+            </li>
+            <li>
+              What are my most used settings?
+            </li>
+            <li>
+              When do I take the most photos?
+            </li>
           </ul>
         </p>
         <p class="post-container--text">
-          I like to think that my photography style has evolved significantly, with major shifts marked by my attempts at 365 projects. I honestly thought there would be more discernable differences betrween the dominant colors.
-        </p>
+          I break up my photography growth into four eras of increased output -- each era coinciding with an attempt at a 365 photo-a-day project.
+          I used a vibrant color npm package, get-image-colors, to assign each photo with a dominant color, because I was curious if I could
+          see any discenerable difference in the colors of my photostream. There wasn't really. Though it makes for a colorful visualisation
+          (this one done with jQuery).
 
+        </p>
         <div class="row post-container--attempt-row">
           <div class="medium-7 columns">
             <div class="post-container--365_first">
-              <h2 class="post-container--subtitle">365 Attempt #1</h2>
+              <h2 class="post-container--subtitle">365 Attempt #1: </h2>
               <p class="post-container--date-range">(May 2010 - Sept 2010)</p>
               <div class="color-grid"></div>
             </div>
@@ -50,7 +75,7 @@
         <div class="row post-container--attempt-row">
           <div class="medium-7 columns">
             <div class="post-container--365_second">
-              <h2 class="post-container--subtitle">365 Attempt #2</h2>
+              <h2 class="post-container--subtitle">365 Attempt #2: </h2>
               <p class="post-container--date-range">(Jan 2011 - March 2011)</p>
               <div class="color-grid"></div>
             </div>
@@ -62,7 +87,7 @@
         <div class="row post-container--attempt-row">
           <div class="medium-7 columns">
             <div class="post-container--365_third">
-              <h2 class="post-container--subtitle">365 Attempt #3</h2>
+              <h2 class="post-container--subtitle">365 Attempt #3: </h2>
               <p class="post-container--date-range">(September 2011 - April 2012)</p>
               <div class="color-grid"></div>
             </div>
@@ -74,7 +99,7 @@
         <div class="row post-container--attempt-row">
           <div class="medium-7 columns">
             <div class="post-container--365_fourth">
-              <h2 class="post-container--subtitle">365 Attempt #4</h2>
+              <h2 class="post-container--subtitle">365 Attempt #4: </h2>
               <p class="post-container--date-range">(February 2014 - February 2014)</p>
               <div class="color-grid"></div>
             </div>
@@ -83,7 +108,7 @@
             <div class="js-block js-fourth"></div>
           </div>
         </div>
-        <div class="post-container--radial-graph">
+        <div class="post-container--radial-graph radial-graph">
           <ul class="radial-graph__button-list">
             <li class="radial-graph__button js-radial-hour">
               By hour
@@ -96,7 +121,7 @@
             </li>
           </ul>
         </div>
-        <div class="post-container--exif-graph">
+        <div class="post-container--exif-graph exif-graph">
           <ul class="exif-graph__button-list">
             <li class="exif-graph__button js-exif-iso">
               ISO
@@ -115,6 +140,11 @@
             Sort
           </div>
         </div>
+        <p class="post-container--text">
+          Note: There is some missing data due to the use of manual lenses that did not
+          transfer aperture or focal length data.
+        </p>
+
         <!-- <div class="js-photo-compare">
             <div class="js-photo-compare__text">
               Click on the color blocks above to load the associated photo.

@@ -50,40 +50,57 @@ ul {
 
 .color-grid {
   margin: 0 0 20px;
-}
 
-.color-grid .swatch {
-  margin: 2px;
-  width: 10px;
-  height: 10px;
-  display: inline-block;
+  .swatch {
+    margin: 2px;
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    cursor: pointer;
+  }
 }
 /*Text Styles*/
+.post-container {
+  &--title {
+    margin: 40px 0 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Monoton', cursive;
+    word-spacing: 20px;
+  }
 
-.post-container--title {
-  margin: 40px 0 0;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: 'Monoton', cursive;
-  word-spacing: 20px;
-}
+  &--note {
+    border: 2px solid darkred;
+    padding: 20px;
+    font-size: 14px;
+    background: white;
+    width: 85%;
+    margin: 25px auto;
 
-.post-container--subtitle {
-  font-family: 'Muli', sans-serif;
-  font-size: 20px;
-}
+    ul {
+      li {
+        font-size: 14px;
+      }
+    }
+  }
 
-.post-container--text {
-  text-indent: 30px;
-}
+  &--subtitle {
+    font-family: 'Muli', sans-serif;
+    font-size: 20px;
+  }
 
-.post-container--date-range,
-.post-container--subtitle {
-  display: inline-block;
-}
+  &--text {
+    text-indent: 30px;
+  }
 
-.post-container--attempt-row {
-  margin: 30px 0 0;
+  &--date-range,
+  &--subtitle {
+    display: inline-block;
+  }
+
+  &--attempt-row {
+    margin: 30px 0 0;
+  }
 }
 /* js image blocks */
 
@@ -96,18 +113,18 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.js-block::after {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 160px;
-  z-index: -1;
-}
+  &::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 160px;
+    z-index: -1;
+  }
 
-.js-block img {
-  max-height: 310px;
+  img {
+    max-height: 310px;
+  }
 }
 
 .js-first.js-block::after {
@@ -129,8 +146,11 @@ ul {
 
 .exif-graph,
 .radial-graph {
+  position: relative;
+
   &__button-list {
     margin: 50px 0 0;
+    display: inline-block;
   }
 
   &__button {
@@ -140,11 +160,32 @@ ul {
     min-width: 100px;
     padding: 0 25px;
     text-align: center;
+    cursor: pointer;
 
     &.active {
       background-color: gray;
       color: white;
     }
+  }
+
+  .js-sort-exif {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    margin: 50px 0 0;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 40px;
+
+    &.active {
+      border-bottom: 1px solid black;
+    }
+  }
+}
+
+.exif-graph {
+  .bar {
+    fill: #636c82;
   }
 }
 /* tooltips  */

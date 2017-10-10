@@ -4,12 +4,15 @@ const margin = {top: 20, right: 20, bottom: 30, left: 40},
   width = absoluteWidth - margin.left - margin.right,
   height = absoluteHeight - margin.top - margin.bottom;
 
+//Add tooltip
+var tooltip = d3.select("body").append("div").attr("class", "tooltip");
 
 function createMainGraph (data){
   let svg = d3.select('.post-container--main-graph').append('svg')
       .attr("width", absoluteWidth)
       .attr("height", absoluteHeight)
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .style("padding", "0 35px");
 
   const x = d3.scaleTime()
               .range([0, width]);
@@ -42,8 +45,6 @@ function createMainGraph (data){
   x.domain(d3.extent(dataForCumulative, function(d){ return d.date }));
   y.domain([0, d3.max(dataForCumulative, function(d) { return d.total })]);
 
-  //Add tooltip
-  var tooltip = d3.select("body").append("div").attr("class", "tooltip");
 
   //Add specific points on line graph
   var manuallyInputDates = {
@@ -138,6 +139,9 @@ function createMainGraph (data){
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
+
+  svg.append("g")
+    .call(d3.axisLeft(y));
 }
 
 function create365Graph(data) {
@@ -216,11 +220,17 @@ function createRadialGraph(data, dateType) {
     .each(function(d) { d.outerRadius = 0; })
     .style("fill", function(d) { return color(d.type) })
     .attr("d", arc)
-    .on('mouseover', function(d) {
-      console.log(d);
+    .on('mousemove', function(d) {
+      tooltip.style("left", d3.event.pageX + "px")
+              .style("top", d3.event.pageY - 85 + "px")
+              .style("display", "inline-block")
+              .html('Period: ' + (keys[d.type] ? keys[d.type] : d.type) + '<br />Total photos: ' + d.count);
+    })
+    .on("mouseout", function(d) {
+      tooltip.style("display", "none");
     });
 
-  segments.transition().duration(500).delay(function(d,i) {return (25-i)*100;})
+  segments.transition().duration(500).delay(function(d,i) {return (shotsPerDate.length-i)*100;})
     .attrTween("d", function(d,index) {
       let i = d3.interpolate(d.outerRadius, scale(+d.count));;
       return function(t) { d.outerRadius = i(t); return arc(d,index); };
@@ -265,7 +275,7 @@ function createRadialGraph(data, dateType) {
 function createExifGraph(data, dataType) {
   let svg = d3.select(".post-container--exif-graph").append("svg")
             .attr("width", absoluteWidth)
-            .attr("height", absoluteHeight)
+            .attr("height", absoluteHeight + 40)
             .append("g")
             .attr("transform",
                   "translate(" + margin.left + "," + margin.top + ")");
@@ -279,6 +289,20 @@ function createExifGraph(data, dataType) {
   let xAxis = d3.axisBottom(x);
 
   let cameraDataArray = dataFormatter.getDataArray(data, dataType);
+
+  if(dataType == 'camera') {
+    Object.keys(cameraDataArray).forEach(function(key) {
+      if(cameraDataArray[key] < 10)  {
+        if(cameraDataArray.otherCams) {
+          cameraDataArray['Other'] += cameraDataArray[key]
+        } else {
+          cameraDataArray['Other'] = cameraDataArray[key];
+        }
+        delete cameraDataArray[key];
+      }
+    });
+  }
+
 
   if(dataType == 'exposure' || dataType == "aperture") {
     x.domain(d3.entries(cameraDataArray)
@@ -308,7 +332,12 @@ function createExifGraph(data, dataType) {
   svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height +")")
-    .call(xAxis);
+    .call(xAxis)
+    .selectAll("text")
+      .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-65)");
   svg.append("g")
     .call(d3.axisLeft(y));
 
@@ -319,8 +348,8 @@ function createExifGraph(data, dataType) {
       // d3.select("input").property("checked", true).each(change);
     // }, 2000);
 
+  $(".js-sort-exif").removeClass('active');
   $(".js-sort-exif").off().on("click", function() {
-    console.log("Hello?");
     $(this).toggleClass('active');
 
     if ($(this).hasClass('active')) {
@@ -364,6 +393,10 @@ d3.csv("flickr-data-final-with-colors.csv", function(error, data) {
   create365Graph(data);
   createRadialGraph(data, 'hour');
   createExifGraph(data, 'iso');
+
+
+  $('.radio-graph__button').first().addClass('active');
+  $('.exif-graph__button').first().addClass('active');
 
   $('body').on('click',".radial-graph__button", function() {
     if($(this).hasClass('js-radial-hour') && !$(this).hasClass('active')) {

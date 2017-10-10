@@ -123,7 +123,7 @@ let dataFormatter = (function () {
         return _getUrl(photo);
       },
       getDataArray: function(data, dataType) {
-        let dataArray = [];
+        let dataArray = {};
 
         data.forEach(function(d) {
           if(d[dataType] != 0 && d[dataType] != 'null') {
