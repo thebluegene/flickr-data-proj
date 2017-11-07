@@ -7,7 +7,7 @@ var getColors = require('get-image-colors');
 
 var dataArray = [];
 var count = 0;
-var myReadStream = fs.createReadStream('flickr-data-final.csv');
+var myReadStream = fs.createReadStream('flickr-data-november.csv');
 
 var worker = function(payload, cb) {
   var url = "https://farm" + payload.farm + ".staticflickr.com/" + payload.server + "/" + payload.id + "_" + payload.secret + "_n.jpg";
@@ -31,7 +31,7 @@ var worker = function(payload, cb) {
       dataArray.push(payload);
     } else {
       console.log("null");
-      payload.color2 = colors[1].hex();
+      payload.color2 = null;
       dataArray.push(payload);
     }
     return cb();
@@ -51,6 +51,6 @@ myReadStream.pipe(csv()).on('data', function(data) {
       var result = converter({
         data: dataArray, fields: Object.keys(dataArray[0])
       });
-      fs.writeFileSync('flickr-data-final-with-colors.csv', result);
+      fs.writeFileSync('flickr-data-november-with-colors.csv', result);
     };
   });

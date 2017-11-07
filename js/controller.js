@@ -89,6 +89,20 @@ let dataFormatter = (function () {
         shotPerMonth.sort(_sortByDate);
         return shotPerMonth;
       },
+      getChronologicalShotsPerDay: function(data) {
+        let count = 0;
+        let set = [];
+        let strictIsoParse = d3.timeParse("%Y:%m:%d %H:%M:%S");
+        data.forEach(function(item) {
+          count++;
+          if(count == 1) {
+            console.log(item['date-taken']);
+            console.log(strictIsoParse(item['date-taken']));
+          }
+          set.push({date: strictIsoParse(item['date-taken']), total: count})
+        });
+        return set;
+      },
       getShotsPerHour: function(data) {
         let hoursArray = _createHoursArray();
         let hour;

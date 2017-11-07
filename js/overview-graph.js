@@ -33,6 +33,8 @@ function createMainGraph (data){
   let total = 0;
   let dataForCumulative = [];
   let shotsPerMonth = dataFormatter.getChronologicalShotsPerMonth(data.reverse());
+  let shotsPerDay = dataFormatter.getChronologicalShotsPerDay(data);
+  let dataForCumulative2 = shotsPerDay;
 
   for (let subArray of shotsPerMonth) {
     let obj = {};
@@ -42,94 +44,101 @@ function createMainGraph (data){
     dataForCumulative.push(obj);
   }
 
-  x.domain(d3.extent(dataForCumulative, function(d){ return d.date }));
-  y.domain([0, d3.max(dataForCumulative, function(d) { return d.total })]);
+  x.domain(d3.extent(dataForCumulative2, function(d){ return d.date }));
+  y.domain([0, d3.max(dataForCumulative2, function(d) { return d.total+100 })]);
 
 
   //Add specific points on line graph
-  var manuallyInputDates = {
-    pod_1_start: dataForCumulative[5],
-    pod_1_end: dataForCumulative[9],
-    pod_2_start: dataForCumulative[13],
-    pod_2_end: dataForCumulative[15],
-    pod_3_start: dataForCumulative[21],
-    pod_3_end: dataForCumulative[28],
-    pod_4_start: dataForCumulative[49],
-    pod_4_end: dataForCumulative[61]
-  }
+  // var manuallyInputDates = {
+  //   pod_1_start: dataForCumulative[5],
+  //   pod_1_end: dataForCumulative[9],
+  //   pod_2_start: dataForCumulative[13],
+  //   pod_2_end: dataForCumulative[15],
+  //   pod_3_start: dataForCumulative[21],
+  //   pod_3_end: dataForCumulative[28],
+  //   pod_4_start: dataForCumulative[49],
+  //   pod_4_end: dataForCumulative[61]
+  // }
 
   // Color in sections when I did a 365
-  svg.append("path")
-    .data([dataForCumulative.slice(5,10)])
-    .attr("class", "setOne")
-    .attr("d", area)
-    .on("mousemove", function(d) {
-      var totalPhotos = d[d.length-1].total - d[0].total;
-      tooltip.style("left", d3.event.pageX + "px")
-              .style("top", d3.event.pageY - 85 + "px")
-              .style("display", "inline-block")
-              .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-    })
-    .on("mouseout", function(d) {
-      tooltip.style("display", "none");
-    });
+  // svg.append("path")
+  //   .data([dataForCumulative.slice(5,10)])
+  //   .attr("class", "setOne")
+  //   .attr("d", area)
+  //   .on("mousemove", function(d) {
+  //     var totalPhotos = d[d.length-1].total - d[0].total;
+  //     tooltip.style("left", d3.event.pageX + "px")
+  //             .style("top", d3.event.pageY - 85 + "px")
+  //             .style("display", "inline-block")
+  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+  //   })
+  //   .on("mouseout", function(d) {
+  //     tooltip.style("display", "none");
+  //   });
 
-  svg.append("path")
-    .data([dataForCumulative.slice(13,16)])
-    .attr("class", "setTwo")
-    .attr("d", area)
-    .on("mousemove", function(d) {
-      var totalPhotos = d[d.length-1].total - d[0].total;
-      tooltip.style("left", d3.event.pageX + "px")
-              .style("top", d3.event.pageY - 85 + "px")
-              .style("display", "inline-block")
-              .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-    })
-    .on("mouseout", function(d) {
-      tooltip.style("display", "none");
-    });
+  // svg.append("path")
+  //   .data([dataForCumulative.slice(13,16)])
+  //   .attr("class", "setTwo")
+  //   .attr("d", area)
+  //   .on("mousemove", function(d) {
+  //     var totalPhotos = d[d.length-1].total - d[0].total;
+  //     tooltip.style("left", d3.event.pageX + "px")
+  //             .style("top", d3.event.pageY - 85 + "px")
+  //             .style("display", "inline-block")
+  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+  //   })
+  //   .on("mouseout", function(d) {
+  //     tooltip.style("display", "none");
+  //   });
 
-  svg.append("path")
-    .data([dataForCumulative.slice(21,29)])
-    .attr("class", "setThree")
-    .attr("d", area)
-    .on("mousemove", function(d) {
-      var totalPhotos = d[d.length-1].total - d[0].total;
-      tooltip.style("left", d3.event.pageX + "px")
-              .style("top", d3.event.pageY - 85 + "px")
-              .style("display", "inline-block")
-              .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-    })
-    .on("mouseout", function(d) {
-      tooltip.style("display", "none");
-    });
+  // svg.append("path")
+  //   .data([dataForCumulative.slice(21,29)])
+  //   .attr("class", "setThree")
+  //   .attr("d", area)
+  //   .on("mousemove", function(d) {
+  //     var totalPhotos = d[d.length-1].total - d[0].total;
+  //     tooltip.style("left", d3.event.pageX + "px")
+  //             .style("top", d3.event.pageY - 85 + "px")
+  //             .style("display", "inline-block")
+  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+  //   })
+  //   .on("mouseout", function(d) {
+  //     tooltip.style("display", "none");
+  //   });
 
-  svg.append("path")
-    .data([dataForCumulative.slice(49,62)])
-    .attr("class", "setFour")
-    .attr("d", area)
-    .on("mousemove", function(d) {
-      var totalPhotos = d[d.length-1].total - d[0].total;
-      tooltip.style("left", d3.event.pageX + "px")
-              .style("top", d3.event.pageY - 85 + "px")
-              .style("display", "inline-block")
-              .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-    })
-    .on("mouseout", function(d) {
-      tooltip.style("display", "none");
-    });
+  // svg.append("path")
+  //   .data([dataForCumulative.slice(49,62)])
+  //   .attr("class", "setFour")
+  //   .attr("d", area)
+  //   .on("mousemove", function(d) {
+  //     var totalPhotos = d[d.length-1].total - d[0].total;
+  //     tooltip.style("left", d3.event.pageX + "px")
+  //             .style("top", d3.event.pageY - 85 + "px")
+  //             .style("display", "inline-block")
+  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+  //   })
+  //   .on("mouseout", function(d) {
+  //     tooltip.style("display", "none");
+  //   });
 
   //Draw line graph
   svg.append("path")
-    .data([dataForCumulative])
+    .data([shotsPerDay])
     .attr("class", "line")
     .attr("d", line);
 
 
   svg.selectAll("dot")
-    .data([manuallyInputDates.pod_1_start, manuallyInputDates.pod_1_end, manuallyInputDates.pod_2_start,
-      manuallyInputDates.pod_2_end, manuallyInputDates.pod_3_start, manuallyInputDates.pod_3_end, manuallyInputDates.pod_4_start,
-      manuallyInputDates.pod_4_end])
+    .data([
+      shotsPerDay[1],
+      shotsPerDay[shotsPerDay.length - 1],
+      shotsPerDay[208],
+      shotsPerDay[367],
+      shotsPerDay[400],
+      shotsPerDay[835],
+      shotsPerDay[1046],
+      shotsPerDay[1495],
+    ])
     .enter().append("circle")
     .attr("class","data-point")
     .attr("r", 3)
@@ -150,7 +159,7 @@ function create365Graph(data) {
     if(data[i]['daily-project-active']) {
       url = dataFormatter.getUrl(data[i]);
       $(".post-container--365_" + data[i]['daily-project-active'] + " .color-grid")
-      .append("<div class='swatch js-" + data[i]['daily-project-active'] + "' data-flickrpage='https://www.flickr.com/photos/thebluegene/" + data[i]['id'] + "' data-url='" + url  + "' style='background:" + data[i].color2 + "'></div>")
+      .append("<div class='swatch js-" + data[i]['daily-project-active'] + "' data-flickrpage='https://www.flickr.com/photos/thebluegene/" + data[i]['id'] + "' data-url='" + url  + "' style='background:" + data[i].color + "'></div>")
     }
   }
 }
@@ -292,7 +301,7 @@ function createExifGraph(data, dataType) {
 
   if(dataType == 'camera') {
     Object.keys(cameraDataArray).forEach(function(key) {
-      if(cameraDataArray[key] < 10)  {
+      if(cameraDataArray[key] < 50)  {
         if(cameraDataArray.otherCams) {
           cameraDataArray['Other'] += cameraDataArray[key]
         } else {
@@ -304,9 +313,9 @@ function createExifGraph(data, dataType) {
   }
 
 
-  if(dataType == 'exposure' || dataType == "aperture") {
+  if(dataType == 'exposure' || dataType == "aperture" || dataType == "focal-length") {
     x.domain(d3.entries(cameraDataArray)
-      .sort(function(a,b) { return eval(a.key) - eval(b.key) })
+      .sort(function(a,b) { return eval(a.key.split(' ')[0]) - eval(b.key.split(' ')[0]) })
       .map(function(d) { return d.key; }));
   } else {
     x.domain(d3.entries(cameraDataArray)
@@ -340,13 +349,6 @@ function createExifGraph(data, dataType) {
         .attr("transform", "rotate(-65)");
   svg.append("g")
     .call(d3.axisLeft(y));
-
-
-
-
-  // var sortTimeout = setTimeout(function() {
-      // d3.select("input").property("checked", true).each(change);
-    // }, 2000);
 
   $(".js-sort-exif").removeClass('active');
   $(".js-sort-exif").off().on("click", function() {
@@ -385,7 +387,7 @@ function createExifGraph(data, dataType) {
   });
 }
 
-d3.csv("flickr-data-final-with-colors.csv", function(error, data) {
+d3.csv("flickr-data-november-final.csv", function(error, data) {
   if (error) {
     throw error;
   }
@@ -428,6 +430,10 @@ d3.csv("flickr-data-final-with-colors.csv", function(error, data) {
     else if($(this).hasClass('js-exif-exposure') && !$(this).hasClass('active')) {
       d3.select('.post-container--exif-graph svg').remove();
       createExifGraph(data, 'exposure');
+    }    
+    else if($(this).hasClass('js-exif-focal') && !$(this).hasClass('active')) {
+      d3.select('.post-container--exif-graph svg').remove();
+      createExifGraph(data, 'focal-length');
     }
     else if($(this).hasClass('js-exif-camera') && !$(this).hasClass('active')) {
       d3.select('.post-container--exif-graph svg').remove();

@@ -18,24 +18,6 @@
     <div class="row">
       <div class="medium-10 medium-offset-1 column">
         <h1 class="post-container--title">8 Years of Photography</h1>
-        <div class="post-container--note">
-          IN PROGRESS:
-          <ul>
-            <li>
-              Total photos in the hover states of the first graph are off. Still figuring out whats causing the difference.
-            </li>
-            <li>
-              "y" value in the radial graph needs to use a different type of interpolation, since using outer radius skews the
-              sizes of the bars
-            </li>
-            <li>
-              Fix script to get focal length data
-            </li>
-            <li>
-              Refactor, refactor, refactor...
-            </li>
-          </ul>
-        </div>
         <div class="post-container--main-graph">
         </div>
         <p class="post-container--text">
@@ -57,9 +39,7 @@
         <p class="post-container--text">
           I break up my photography growth into four eras of increased output -- each era coinciding with an attempt at a 365 photo-a-day project.
           I used a vibrant color npm package, get-image-colors, to assign each photo with a dominant color, because I was curious if I could
-          see any discenerable difference in the colors of my photostream. There wasn't really. Though it makes for a colorful visualisation
-          (this one done with jQuery).
-
+          see any discenerable difference in the colors of my photostream. There wasn't really. Though it makes for a colorful visualisation.
         </p>
         <div class="row post-container--attempt-row">
           <div class="medium-7 columns">
@@ -133,6 +113,9 @@
             <li class="exif-graph__button js-exif-aperture">
               Aperture
             </li>
+            <li class="exif-graph__button js-exif-focal">
+              Focal Length
+            </li>
             <li class="exif-graph__button js-exif-camera">
               Camera Body
             </li>
@@ -141,24 +124,15 @@
             Sort
           </div>
         </div>
-        <p class="post-container--text">
-          Note: There is some missing data due to the use of manual lenses that did not
-          transfer aperture or focal length data.
-        </p>
-
-        <!-- <div class="js-photo-compare">
-            <div class="js-photo-compare__text">
-              Click on the color blocks above to load the associated photo.
-            </div>
-            <div class="row">
-              <div class="medium-6 columns js-block js-first"></div>
-              <div class="medium-6 columns js-block js-second"></div>
-            </div>
-            <div class="row">
-              <div class="medium-6 columns js-block js-third"></div>
-              <div class="medium-6 columns js-block js-fourth"></div>
-            </div>
-          </div> -->
+        
+        <div class="post-container--note">
+          Note:
+          <ul>
+            <li>
+              I have taken over 600 photos with manual lenses (24mm f/2.8, 35mm f/1.7, 50mm f/1.8, 135 f/2.8) that don't track lens specific EXIF data, like aperture and focal length, and those are not reflected in the data. 
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
