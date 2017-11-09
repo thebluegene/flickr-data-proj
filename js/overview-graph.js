@@ -3,7 +3,7 @@ const absoluteHeight = 500;
 const margin = {top: 20, right: 20, bottom: 30, left: 40},
   width = absoluteWidth - margin.left - margin.right,
   height = absoluteHeight - margin.top - margin.bottom;
-
+const strictIsoParse = d3.timeParse("%Y:%m:%d %H:%M:%S");
 //Add tooltip
 var tooltip = d3.select("body").append("div").attr("class", "tooltip");
 
@@ -11,8 +11,8 @@ function createMainGraph (data){
   let svg = d3.select('.post-container--main-graph').append('svg')
       .attr("width", absoluteWidth)
       .attr("height", absoluteHeight)
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-      .style("padding", "0 35px");
+      .attr("transform", "translate(" + 0 + "," + margin.top + ")")
+      .style("padding", "0 0 0 55px");
 
   const x = d3.scaleTime()
               .range([0, width]);
@@ -47,79 +47,75 @@ function createMainGraph (data){
   x.domain(d3.extent(dataForCumulative2, function(d){ return d.date }));
   y.domain([0, d3.max(dataForCumulative2, function(d) { return d.total+100 })]);
 
-
-  //Add specific points on line graph
-  // var manuallyInputDates = {
-  //   pod_1_start: dataForCumulative[5],
-  //   pod_1_end: dataForCumulative[9],
-  //   pod_2_start: dataForCumulative[13],
-  //   pod_2_end: dataForCumulative[15],
-  //   pod_3_start: dataForCumulative[21],
-  //   pod_3_end: dataForCumulative[28],
-  //   pod_4_start: dataForCumulative[49],
-  //   pod_4_end: dataForCumulative[61]
-  // }
+  // text label for the Y
+  svg.append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 0 - margin.left)
+  .attr("x",0 - (height / 2))
+  .attr("dy", "0px")
+  .style("text-anchor", "middle")
+  .text("Total Photos");
 
   // Color in sections when I did a 365
-  // svg.append("path")
-  //   .data([dataForCumulative.slice(5,10)])
-  //   .attr("class", "setOne")
-  //   .attr("d", area)
-  //   .on("mousemove", function(d) {
-  //     var totalPhotos = d[d.length-1].total - d[0].total;
-  //     tooltip.style("left", d3.event.pageX + "px")
-  //             .style("top", d3.event.pageY - 85 + "px")
-  //             .style("display", "inline-block")
-  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-  //   })
-  //   .on("mouseout", function(d) {
-  //     tooltip.style("display", "none");
-  //   });
+  svg.append("path")
+    .data([shotsPerDay.slice(207,366)])
+    .attr("class", "setOne")
+    .attr("d", area)
+    .on("mousemove", function(d) {
+      var totalPhotos = d[d.length-1].total - d[0].total;
+      tooltip.style("left", d3.event.pageX + 15 + "px")
+              .style("top", d3.event.pageY - 85 + "px")
+              .style("display", "inline-block")
+              .html('<h3>365 Attempt #1</h3>Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+    })
+    .on("mouseout", function(d) {
+      tooltip.style("display", "none");
+    });
 
-  // svg.append("path")
-  //   .data([dataForCumulative.slice(13,16)])
-  //   .attr("class", "setTwo")
-  //   .attr("d", area)
-  //   .on("mousemove", function(d) {
-  //     var totalPhotos = d[d.length-1].total - d[0].total;
-  //     tooltip.style("left", d3.event.pageX + "px")
-  //             .style("top", d3.event.pageY - 85 + "px")
-  //             .style("display", "inline-block")
-  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-  //   })
-  //   .on("mouseout", function(d) {
-  //     tooltip.style("display", "none");
-  //   });
+  svg.append("path")
+    .data([shotsPerDay.slice(397,479)])
+    .attr("class", "setTwo")
+    .attr("d", area)
+    .on("mousemove", function(d) {
+      var totalPhotos = d[d.length-1].total - d[0].total;
+      tooltip.style("left", d3.event.pageX + 15 + "px")
+              .style("top", d3.event.pageY - 85 + "px")
+              .style("display", "inline-block")
+              .html('<h3>365 Attempt #2</h3>Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+    })
+    .on("mouseout", function(d) {
+      tooltip.style("display", "none");
+    });
 
-  // svg.append("path")
-  //   .data([dataForCumulative.slice(21,29)])
-  //   .attr("class", "setThree")
-  //   .attr("d", area)
-  //   .on("mousemove", function(d) {
-  //     var totalPhotos = d[d.length-1].total - d[0].total;
-  //     tooltip.style("left", d3.event.pageX + "px")
-  //             .style("top", d3.event.pageY - 85 + "px")
-  //             .style("display", "inline-block")
-  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-  //   })
-  //   .on("mouseout", function(d) {
-  //     tooltip.style("display", "none");
-  //   });
+  svg.append("path")
+    .data([shotsPerDay.slice(558,832)])
+    .attr("class", "setThree")
+    .attr("d", area)
+    .on("mousemove", function(d) {
+      var totalPhotos = d[d.length-1].total - d[0].total;
+      tooltip.style("left", d3.event.pageX + 15 + "px")
+              .style("top", d3.event.pageY - 85 + "px")
+              .style("display", "inline-block")
+              .html('<h3>365 Attempt #3</h3>Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+    })
+    .on("mouseout", function(d) {
+      tooltip.style("display", "none");
+    });
 
-  // svg.append("path")
-  //   .data([dataForCumulative.slice(49,62)])
-  //   .attr("class", "setFour")
-  //   .attr("d", area)
-  //   .on("mousemove", function(d) {
-  //     var totalPhotos = d[d.length-1].total - d[0].total;
-  //     tooltip.style("left", d3.event.pageX + "px")
-  //             .style("top", d3.event.pageY - 85 + "px")
-  //             .style("display", "inline-block")
-  //             .html('Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
-  //   })
-  //   .on("mouseout", function(d) {
-  //     tooltip.style("display", "none");
-  //   });
+  svg.append("path")
+    .data([shotsPerDay.slice(1043, 1492)])
+    .attr("class", "setFour")
+    .attr("d", area)
+    .on("mousemove", function(d) {
+      var totalPhotos = d[d.length-1].total - d[0].total;
+      tooltip.style("left", d3.event.pageX + 15 + "px")
+              .style("top", d3.event.pageY - 85 + "px")
+              .style("display", "inline-block")
+              .html('<h3>365 Attempt #4</h3>Total photos: ' + totalPhotos + '<br />' +  (d[0].date.getMonth()+1) + '/' +  d[0].date.getFullYear() + ' to ' + (d[d.length-1].date.getMonth()+1) + '/' + d[d.length-1].date.getFullYear());
+    })
+    .on("mouseout", function(d) {
+      tooltip.style("display", "none");
+    });
 
   //Draw line graph
   svg.append("path")
@@ -128,22 +124,59 @@ function createMainGraph (data){
     .attr("d", line);
 
 
+  //Manually entered points on graph...
+  shotsPerDay[1].title = "First post";
+  shotsPerDay[shotsPerDay.length - 1].title = "Most recent";
+  shotsPerDay[207].title = "365 Attempt #1 Start";
+  shotsPerDay[366].title = "365 Attempt #1 End";
+  shotsPerDay[397].title = "365 Attempt #2 Start";
+  shotsPerDay[479].title = "365 Attempt #2 End"
+  shotsPerDay[558].title = "365 Attempt #3 Start"
+  shotsPerDay[832].title = "365 Attempt #3 End";
+  shotsPerDay[1043].title = "365 Attempt #4 Start";
+  shotsPerDay[1492].title = "365 Attempt #4 End";
+  shotsPerDay[1371].title = "First photo w/ Zeiss 55mm";
+  shotsPerDay[1596].title = "First photo w/ Voigtlander 35mm";
+  shotsPerDay[292].title = "First photo w/ Nikon 50mm";
+  
   svg.selectAll("dot")
     .data([
-      shotsPerDay[1],
+      shotsPerDay[0],
       shotsPerDay[shotsPerDay.length - 1],
-      shotsPerDay[208],
-      shotsPerDay[367],
-      shotsPerDay[400],
-      shotsPerDay[835],
-      shotsPerDay[1046],
-      shotsPerDay[1495],
+      shotsPerDay[207],
+      shotsPerDay[366],
+      shotsPerDay[397],
+      shotsPerDay[479],
+      shotsPerDay[558],
+      shotsPerDay[832],
+      shotsPerDay[1043],
+      shotsPerDay[1492],
+      shotsPerDay[1371],
+      shotsPerDay[1596],
+      shotsPerDay[292],
     ])
     .enter().append("circle")
     .attr("class","data-point")
-    .attr("r", 3)
+    .attr("r", 5)
     .attr("cx", function(d) { return x(d.date)})
-    .attr("cy", function(d) { return y(d.total)});
+    .attr("cy", function(d) { return y(d.total)})
+    .on('mousemove', function(d) {
+      if(d.total < 1000) {
+        tooltip.style("left", d3.event.pageX + 20 + "px")
+          .style("top", d3.event.pageY - 210 + "px")
+          .style("display", "inline-block")
+          .html('<h3>' + d.title + '</h3>Photo Number: ' + d.total + '<br /> ' + d.date + '<br /><img src=' + d.url + ' />');
+      } else {
+        tooltip.style("left", d3.event.pageX - 500 + "px")
+        .style("top", d3.event.pageY - 30 + "px")
+        .style("display", "inline-block")
+        .html('<h3>' + d.title + '</h3>Photo Number: ' + d.total + '<br /> ' + d.date + '<br /><img src=' + d.url + ' />');
+      }
+
+    })
+    .on("mouseout", function(d) {
+      tooltip.style("display", "none");
+    });
 
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -159,7 +192,7 @@ function create365Graph(data) {
     if(data[i]['daily-project-active']) {
       url = dataFormatter.getUrl(data[i]);
       $(".post-container--365_" + data[i]['daily-project-active'] + " .color-grid")
-      .append("<div class='swatch js-" + data[i]['daily-project-active'] + "' data-flickrpage='https://www.flickr.com/photos/thebluegene/" + data[i]['id'] + "' data-url='" + url  + "' style='background:" + data[i].color + "'></div>")
+      .append("<div class='swatch js-" + data[i]['daily-project-active'] + "' data-date='" + data[i]['date-taken'] + "' data-flickrpage='https://www.flickr.com/photos/thebluegene/" + data[i]['id'] + "' data-url='" + url  + "' style='background:" + data[i].color + "'></div>")
     }
   }
 }
@@ -397,7 +430,7 @@ d3.csv("flickr-data-november-final.csv", function(error, data) {
   createExifGraph(data, 'iso');
 
 
-  $('.radio-graph__button').first().addClass('active');
+  $('.radial-graph__button').first().addClass('active');
   $('.exif-graph__button').first().addClass('active');
 
   $('body').on('click',".radial-graph__button", function() {
@@ -448,6 +481,10 @@ d3.csv("flickr-data-november-final.csv", function(error, data) {
 });
 
 $("body").on("click", ".swatch", function() {
-  var flickrPage = $(this).data('flickrpage');
-  $(".js-photo-compare ." + $(this).attr('class').split(' ')[1]).html("<a target='_blank' href='"+flickrPage+"'><img src='" + $(this).data('url') + "' /></a>");
+  let flickrPage = $(this).data('flickrpage');
+
+  $(".js-photo-compare ." + $(this).attr('class').split(' ')[1])
+    .html("<div><a target='_blank' href='"+flickrPage+"'><img src='"
+     + $(this).data('url') + "' /></a></div><p class='js-block--date'>"
+     + strictIsoParse($(this).data('date')) + "</p>");
 });

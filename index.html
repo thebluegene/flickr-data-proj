@@ -21,25 +21,27 @@
         <div class="post-container--main-graph">
         </div>
         <p class="post-container--text">
-          For 8 years now I've shared my photography on Flickr, and after recently gaining an interest in data visualization, I realized
-          posting photos to Flickr has been creating a database of all my photo data. It made perfect sense to use that data of over 1500
-          photos for my first D3 project. There were four questions I wanted to answer with the visualizations:
+          For 8 years now I've shared my photography on Flickr, and after gaining an interest in data visualization, I realized
+          posting photos to Flickr has been creating a database of all my photo data. It made perfect sense to use that data of over 1600
+          photos for my first D3 project. There were three questions I wanted to answer with the visualizations:
           <ul>
             <li>
               How apparent is the difference in my photography style during my four attempts at a 365 project?
             </li>
             <li>
-              What are my most used settings?
+              When do I take the most photos?
             </li>
             <li>
-              When do I take the most photos?
+              What are my most used settings?
             </li>
           </ul>
         </p>
         <p class="post-container--text">
           I break up my photography growth into four eras of increased output -- each era coinciding with an attempt at a 365 photo-a-day project.
-          I used a vibrant color npm package, get-image-colors, to assign each photo with a dominant color, because I was curious if I could
-          see any discenerable difference in the colors of my photostream. There wasn't really. Though it makes for a colorful visualisation.
+          To address the first question, I used an npm package to get the most vibrant color of an image, get-image-colors, to assign each photo with a dominant color, because I was curious if I could
+          see any discenerable difference in the colors of my photostream. There isn't really -- though it makes for a colorful visualisation. I do believe, however,
+          there are significant differences in style, subject, and composition between sets when photos from each are viewed and compared. (Making this has also been a reminder to me as to how difficult
+          365 projects are to finish)
         </p>
         <div class="row post-container--attempt-row">
           <div class="medium-7 columns">
@@ -89,6 +91,10 @@
             <div class="js-block js-fourth"></div>
           </div>
         </div>
+        <p class="post-container--text">
+         To address the second question, I counted how many photos I took at various time intervals. Most of the photos are from when I was still in school, so 
+         the fact I took most of my photos from 3PM to 11PM and on the weekend make sense. My monthly counts are a bit more random, likely event-driven (vacation, portrait session, etc.).
+        </p>
         <div class="post-container--radial-graph radial-graph">
           <ul class="radial-graph__button-list">
             <li class="radial-graph__button js-radial-hour">
@@ -99,6 +105,19 @@
             </li>
             <li class="radial-graph__button js-radial-month">
               By month
+            </li>
+          </ul>
+        </div>
+        <p class="post-container--text">
+         Lastly, I counted photos based on all the EXIF data collected on my account. Not a whole lot of surprises -- I really like shooting wide open and the nifty 50 
+         pretty much lives on my camera. I do find it interesting that my ISO settings gravitate towards native ISOs, as it's not something I actively think about when 
+         setting up exposure.
+        </p>
+        <div class="post-container--note">
+          Note:
+          <ul>
+            <li>
+              I have taken over 600 photos with manual lenses (24mm f/2.8, 35mm f/1.7, 135 f/2.8) that don't track lens specific EXIF data, like aperture and focal length, and those are not reflected in the data. 
             </li>
           </ul>
         </div>
@@ -123,15 +142,6 @@
           <div class="js-sort-exif">
             Sort
           </div>
-        </div>
-        
-        <div class="post-container--note">
-          Note:
-          <ul>
-            <li>
-              I have taken over 600 photos with manual lenses (24mm f/2.8, 35mm f/1.7, 50mm f/1.8, 135 f/2.8) that don't track lens specific EXIF data, like aperture and focal length, and those are not reflected in the data. 
-            </li>
-          </ul>
         </div>
       </div>
     </div>

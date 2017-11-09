@@ -123,6 +123,13 @@ ul {
     z-index: -1;
   }
 
+  &--date {
+    position: absolute;
+    bottom: 0;
+    font-size: 14px;
+    margin: 0;
+  }
+
   img {
     max-height: 310px;
   }
@@ -200,4 +207,12 @@ ul {
   border: 1px solid black;
   padding: 10px 15px;
   text-align: center;
+
+  h3 {
+    margin: 0;
+  }
+
+  img {
+    margin: 10px 0 0 0;
+  }
 }

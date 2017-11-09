@@ -67,8 +67,12 @@ let dataFormatter = (function () {
       return array;
     }
 
-    function _getUrl(photo) {
-      return "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_c.jpg";
+    function _getUrl(photo, size) {
+      if(size == 'small') {
+        return "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_n.jpg";
+      } else {
+        return "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_c.jpg";
+      }
     }
 
     return {
@@ -95,11 +99,7 @@ let dataFormatter = (function () {
         let strictIsoParse = d3.timeParse("%Y:%m:%d %H:%M:%S");
         data.forEach(function(item) {
           count++;
-          if(count == 1) {
-            console.log(item['date-taken']);
-            console.log(strictIsoParse(item['date-taken']));
-          }
-          set.push({date: strictIsoParse(item['date-taken']), total: count})
+          set.push({date: strictIsoParse(item['date-taken']), total: count, url: _getUrl(item, 'small')});
         });
         return set;
       },
