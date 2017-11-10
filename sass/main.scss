@@ -209,10 +209,19 @@ ul {
   text-align: center;
 
   h3 {
+    font-size: 18px;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  &__date {
+    font-size: 12px;
+    font-family: Helvetica;
     margin: 0;
   }
 
   img {
-    margin: 10px 0 0 0;
+    margin: 0 0 5px 0;
   }
 }

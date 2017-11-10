@@ -165,12 +165,12 @@ function createMainGraph (data){
         tooltip.style("left", d3.event.pageX + 20 + "px")
           .style("top", d3.event.pageY - 210 + "px")
           .style("display", "inline-block")
-          .html('<h3>' + d.title + '</h3>Photo Number: ' + d.total + '<br /> ' + d.date + '<br /><img src=' + d.url + ' />');
+          .html('<h3>' + d.title + '</h3>Photo #' + d.total + '<br /><img src=' + d.url + ' /><p class="tooltip__date"> ' + d.date + '</div>');
       } else {
         tooltip.style("left", d3.event.pageX - 500 + "px")
         .style("top", d3.event.pageY - 30 + "px")
         .style("display", "inline-block")
-        .html('<h3>' + d.title + '</h3>Photo Number: ' + d.total + '<br /> ' + d.date + '<br /><img src=' + d.url + ' />');
+        .html('<h3>' + d.title + '</h3>Photo #' + d.total + '<br /><img src=' + d.url + ' /><p class="tooltip__date"> ' + d.date + '</div>');
       }
 
     })
