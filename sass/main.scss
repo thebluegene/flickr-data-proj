@@ -29,6 +29,7 @@ ul {
 .data-point {
   fill: #000000;
   stroke: black;
+  cursor: pointer;
 }
 
 .setOne {
@@ -46,6 +47,7 @@ ul {
 .setFour {
   fill: #EF5F7F;
 }
+
 /*365 styles*/
 
 .color-grid {
@@ -181,12 +183,15 @@ ul {
     position: absolute;
     right: 0;
     margin: 50px 0 0;
+    border: 1px solid black;
     cursor: pointer;
     text-align: center;
-    padding: 10px 40px;
+    padding: 4px 25px;
 
     &.active {
-      border-bottom: 1px solid black;
+      font-weight: 600;
+      background-color: gray;
+      color: white;
     }
   }
 }

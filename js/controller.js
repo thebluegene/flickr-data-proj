@@ -117,7 +117,7 @@ let dataFormatter = (function () {
         let dayArray = _createDaysArray();
         let day;
         data.forEach(function(item) {
-          var d = new Date(item['date-taken'].split(' ')[0].replace(':','-'));
+          var d = new Date(item['date-taken'].split(' ')[0].replace(/:/g,'-'));
           day = d.getDay();
           dayArray[day].count++;
         });
@@ -127,7 +127,7 @@ let dataFormatter = (function () {
         let monthArray = _createMonthsArray();
         let month;
         data.forEach(function(item) {
-          var d = new Date(item['date-taken'].split(' ')[0].replace(':','-'));
+          var d = new Date(item['date-taken'].split(' ')[0].replace(/:/g,'-'));
           month = d.getMonth();
           monthArray[month].count++;
         });

@@ -1,7 +1,8 @@
 const absoluteWidth = 960;
 const absoluteHeight = 500;
 const margin = {top: 20, right: 20, bottom: 30, left: 40},
-  width = absoluteWidth - margin.left - margin.right,
+  padding = {top: 0, right: 0, bottom: 0, left: 55},
+  width = absoluteWidth - margin.left - margin.right - padding.left,
   height = absoluteHeight - margin.top - margin.bottom;
 const strictIsoParse = d3.timeParse("%Y:%m:%d %H:%M:%S");
 //Add tooltip
@@ -125,7 +126,7 @@ function createMainGraph (data){
 
 
   //Manually entered points on graph...
-  shotsPerDay[1].title = "First post";
+  shotsPerDay[0].title = "First post";
   shotsPerDay[shotsPerDay.length - 1].title = "Most recent";
   shotsPerDay[207].title = "365 Attempt #1 Start";
   shotsPerDay[366].title = "365 Attempt #1 End";
@@ -167,7 +168,7 @@ function createMainGraph (data){
           .style("display", "inline-block")
           .html('<h3>' + d.title + '</h3>Photo #' + d.total + '<br /><img src=' + d.url + ' /><p class="tooltip__date"> ' + d.date + '</div>');
       } else {
-        tooltip.style("left", d3.event.pageX - 500 + "px")
+        tooltip.style("left", d3.event.pageX - 400 + "px")
         .style("top", d3.event.pageY - 30 + "px")
         .style("display", "inline-block")
         .html('<h3>' + d.title + '</h3>Photo #' + d.total + '<br /><img src=' + d.url + ' /><p class="tooltip__date"> ' + d.date + '</div>');
@@ -221,7 +222,7 @@ function createRadialGraph(data, dateType) {
   let extent = d3.extent(shotsPerDate, function(d) { return d.count; });
   let scale = d3.scaleLinear()
     .domain(extent)
-    .range([0, barHeight]);
+    .range([20, barHeight]);
 
   let keys = shotsPerDate.map(function(d,i) { return d.type });
 
@@ -274,7 +275,7 @@ function createRadialGraph(data, dateType) {
 
   segments.transition().duration(500).delay(function(d,i) {return (shotsPerDate.length-i)*100;})
     .attrTween("d", function(d,index) {
-      let i = d3.interpolate(d.outerRadius, scale(+d.count));;
+      let i = d3.interpolate(d.outerRadius, scale(+d.count));
       return function(t) { d.outerRadius = i(t); return arc(d,index); };
     });
 
@@ -318,6 +319,7 @@ function createExifGraph(data, dataType) {
   let svg = d3.select(".post-container--exif-graph").append("svg")
             .attr("width", absoluteWidth)
             .attr("height", absoluteHeight + 40)
+            .style("padding", "0 0 0 55px")
             .append("g")
             .attr("transform",
                   "translate(" + margin.left + "," + margin.top + ")");
@@ -355,6 +357,15 @@ function createExifGraph(data, dataType) {
       .map(function(d) { return d.key; }));
   }
   y.domain([0, d3.max(d3.entries(cameraDataArray), function(d) { return d.value; })]);
+
+  // text label for the Y
+  svg.append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 0 - margin.left)
+  .attr("x",0 - (height / 2))
+  .attr("dy", "0px")
+  .style("text-anchor", "middle")
+  .text("# of Photos");
 
   svg.selectAll(".bar")
       .data(d3.entries(cameraDataArray))
